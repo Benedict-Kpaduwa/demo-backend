@@ -5,10 +5,10 @@ let redisClient;
 const connectRedis = async () => {
     redisClient = createClient({
         socket: {
-            host: 'redis-18397.c341.af-south-1-1.ec2.redns.redis-cloud.com',
-            port: 18397
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT
         },
-        password: '07Xo9ZO5k6wi21pXXsOMvPG7WlsUtTPO'
+        password: process.env.REDIS_PASSWORD
     });
 
     redisClient.on('error', (err) => console.error('Redis error:', err));

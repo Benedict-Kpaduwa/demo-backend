@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Transaction = require('./models/Transaction.model');
 
-mongoose.connect('mongodb://localhost:27017/yourdb');
+mongoose.connect(process.env.MONGODB);
 
 const seedTransactions = async () => {
     await Transaction.deleteMany({});

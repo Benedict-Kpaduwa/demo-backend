@@ -24,7 +24,7 @@ const login = async (req, res) => {
         });
         res.cookie('ws-token', token, {
             httpOnly: false,
-            secure: process.env.NODE_ENV,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 3600 * 1000,
         });
@@ -49,13 +49,13 @@ const register = async (req, res) => {
         const token = generateToken(user._id);
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 3600 * 1000,
         });
         res.cookie('ws-token', token, {
             httpOnly: false,
-            secure: process.env.NODE_ENV,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 3600 * 1000,
         });
