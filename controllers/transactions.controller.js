@@ -2,6 +2,8 @@ const { getRedisClient } = require('../config/redis');
 const Transaction = require('../models/Transaction.model');
 const { getTransactions } = require('../services/transaction.service.js');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User.model');
+
 const mongoose = require('mongoose');
 
 const verifyToken = (req) => {
@@ -43,9 +45,12 @@ const getSummary = async (req, res) => {
             { $match: { userId: new mongoose.Types.ObjectId(decoded.id) } },
             { $group: { _id: null, total: { $sum: '$amount' } } },
         ]);
+
+        const totalUsers = await User.countDocuments();
+
         const summary = {
             totalBalance: totalBalance[0]?.total || 0,
-            totalUsers: 1
+            totalUsers
         };
 
         await redisClient.setEx(cacheKey, 3600, JSON.stringify(summary));
